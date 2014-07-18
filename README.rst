@@ -3,11 +3,10 @@ BottleCBV (Bottle Class Based View)
 
 .. module:: bottleCBV
 
-bottleCBV is an extension that adds class-based views to Bottle (Inspired by _Flask-Classy)
+`bottleCBV` is an class based view extension for bottle framework, 
+that will automatically generate routes based on methods in the views defined (Inspired by _Flask-Classy), 
 
-.. _Flask-Classy: https://github.com/apiguy/flask-classy
-
-`bottleCBV` will automatically generate routes based on methods in the views defined.
+.. _Flask-Classy: http://github.com/apiguy/flask-classy
 
 
 Installation

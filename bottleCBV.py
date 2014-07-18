@@ -113,7 +113,7 @@ class BottleView(object):
     def _build_route_rule(cls, func_name, *method_args):
 
         klass_name = cls.__name__.lower()
-        klass_name = (klass_name.rstrip(cls.view_identifier)
+        klass_name = (klass_name[:-len(cls.view_identifier)]
                       if klass_name.endswith(cls.view_identifier)
                       else klass_name)
 

@@ -1,10 +1,19 @@
-from bottleCBV.bottleCBV import BottleView, route
-from functools import wraps
+from bottleCBV import BottleView, route
+
 
 VALUE1 = "value1"
 
+
 def get_value():
     return VALUE1
+
+
+def mydecorator(original_function):
+    def new_function(*args, **kwargs):
+        resp = original_function(*args, **kwargs)
+        return "decorator:%s" % resp
+    return new_function
+
 
 class BasicView(BottleView):
 
@@ -13,13 +22,10 @@ class BasicView(BottleView):
         return "Index"
 
     def get(self, obj_id):
-        return "Get " + obj_id
+        return "Get:" + obj_id
 
     def put(self, id):
         return "Put " + id
-
-    def patch(self, id):
-        return "Patch " + id
 
     def post(self):
         return "Post"
@@ -27,176 +33,72 @@ class BasicView(BottleView):
     def delete(self, id):
         return "Delete " + id
 
-    def custom_method(self):
-        return "Custom Method"
+    def mymethod(self):
+        return "My Method"
 
-    def custom_method_with_params(self, p_one, p_two):
-        return "Custom Method %s %s" % (p_one, p_two,)
+    def mymethod_args(self, p_one, p_two):
+        return "My Method %s %s" % (p_one, p_two,)
 
-    @route("/routed/")
-    def routed_method(self):
-        return "Routed Method"
+    @route("/endpoint/")
+    def mymethod_route(self):
+        return "Custom Route"
+
+    @route("/endpoint/", method=["POST", "PUT"])
+    def mymethod_route_post(self):
+        from bottle import request
+        return "Custom Route %s" % request.method.upper()
 
     @route("/route1/")
     @route("/route2/")
     def multi_routed_method(self):
         return "Multi Routed Method"
 
-    @route("/noslash")
-    def no_slash_method(self):
-        return "No Slash Method"
-
-    @route("/endpoint/", name="basic_endpoint")
-    def custom_endpoint(self):
-        return "Custom Endpoint"
-
-    @route("/route3/", methods=['POST'])
-    def custom_http_method(self):
-        return "Custom HTTP Method"
-
-
-class IndexView(BottleView):
-    route_base = "/"
-    route_prefix = "/"
-    def index(self):
-        return "Index"
-
 
 class RouteBaseView(BottleView):
-    route_base = "/base-routed/"
-
+    base_route = "my"
     def index(self):
-        return "Index"
+        return "index-route-base"
 
 
 class RoutePrefixView(BottleView):
-    route_prefix = "/my_prefix/"
-
+    route_prefix = "/"
     def index(self):
-        return "Index"
+        return "index-route-prefix"
 
-
-class VariedMethodsView(BottleView):
-
-    def index(self):
-        return "Index"
-
-    @route("/routed/")
-    def routed_method(self):
-        return "Routed Method"
-
-    @classmethod
-    def class_method(cls):
-        return "Class Method"
-
-class SubVariedMethodsView(VariedMethodsView):
-    pass
-
-def func_decorator(f):
-    def decorated_view(*args, **kwargs):
-        return f(*args, **kwargs)
-    return decorated_view
-
-def wraps_decorator(f):
-    @wraps(f)
-    def decorated_view(*args, **kwargs):
-      return f(*args, **kwargs)
-    return decorated_view
-
-
-def params_decorator(p_1, p_2):
-    def decorator(f):
-       @wraps(f)
-       def decorated_function(*args, **kwargs):
-           return f(*args, **kwargs)
-       return decorated_function
-    return decorator
-
-
-def recursive_decorator(f):
-    @wraps(f)
-    def decorated_view(*args, **kwargs):
-        decorated_view.foo()
-        return f(*args, **kwargs)
-
-    def foo():
-        return 'bar'
-    decorated_view.foo = foo
-
-    return decorated_view
-
-def more_recursive(stop_type):
-    def _inner(func):
-        def _recursive(*args, **kw):
-            return func(*args, **kw)
-        return _recursive
-    return _inner
-
-
-class DecoratedView(BottleView):
-    @func_decorator
-    def index(self):
-        return "Index"
-
-    @func_decorator
-    def get(self, id):
-        return "Get " + id
-
-    @recursive_decorator
     def post(self):
-        return "Post"
+        return "post-route-prefix"
 
-    @params_decorator("oneval", "anotherval")
-    def params_decorator_method(self):
-        return "Params Decorator"
-
-    @params_decorator(get_value(), "value")
-    def delete(self, obj_id):
-        return "Params Decorator Delete " + obj_id
+    def get(self):
+        return "get-route-prefix"
 
 
-    @more_recursive(None)
-    def get_some(self):
-        return "Get Some"
+class DecoratorView(BottleView):
+    decorators = [mydecorator]
+    def index(self):
+        return "index"
 
-    @more_recursive(None)
-    @recursive_decorator
-    def get_this(self):
-        return "Get This"
+    def post(self):
+        return "post"
 
-    @route('/mixitup')
-    @more_recursive(None)
-    @recursive_decorator
-    def mixitup(self):
-        return "Mix It Up"
+    def get(self, val):
+        return "get:%s" % val
 
-    @more_recursive(None)
-    def someval(self, val):
-        return "Someval " + val
+    def myfunc(self, arg1):
+        return "get:myfunc:%s" % arg1
 
-    @route('/anotherval/<val>')
-    def anotherval(self, val):
-        return "Anotherval " + val
+    @route("/my-custom-route/")
+    def my_custom_route(self):
+        return "get:my-custom-route"
 
+class SingleDecoratorView(BottleView):
 
+    def index(self):
+        return "index"
 
-class InheritanceView(BasicView):
+    @mydecorator
+    def post(self):
+        return "post"
 
-    # Tests method override
-    def get(self, obj_id):
-        return "Inheritance Get " + obj_id
+    def get(self, val):
+        return "get:%s" % val
 
-    @route('/<obj_id>/delete', methods=['DELETE'])
-    def delete(self, obj_id):
-        return "Inheritance Delete " + obj_id
-
-    @route('/with_route')
-    def with_route(self):
-        return "Inheritance with route"
-
-
-class DecoratedInheritanceView(DecoratedView):
-
-    @recursive_decorator
-    def get(self, obj_id):
-        return "Decorated Inheritance Get " + obj_id

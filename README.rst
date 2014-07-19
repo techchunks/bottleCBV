@@ -123,6 +123,7 @@ Custom Rule can add by using ```route``` decorator e.g,
 So, now the route/rule registered for the method above will be,
 
 ::
+
     Method: GET 
     Endpoint: `/my-custom-route/` 
     

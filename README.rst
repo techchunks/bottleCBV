@@ -83,3 +83,40 @@ Access them as below:
     
     OUTPUT:
         ``Put Example 1``
+
+
+Special Methods:
+****************
+
+HTTP methods below are treated as special methods, there are not registered based on the method name but HTTP method
+
+
+```["get", "put", "post", "delete", "index", "options"] ```
+
+as you can see in example above `get` request goes to ```def get```, and similarly `post` request goes to ```def post``` and so on.
+
+
+Adding Route Base Prefix:
+*************************
+So if you want to add base prefix to your route, it is as simple as adding a variable in you View as below,
+::
+    class ExampleView(BottleView):
+        base_route = "/my"
+        ...
+        ...
+
+So, now all the routes in ExampleView will be registered as follow
+::
+    
+    Method: GET ```/my/example/``` 
+    
+    Method: GET ```/my/example/<item_key>/``` 
+    
+    Method: POST ```/my/example/``` 
+    
+    Method: PUT ```/my/example/<item_key>/``` 
+    
+
+Registering Custom Methods:
+***************************
+Registering custom method is very simple, just need to add the method to class 

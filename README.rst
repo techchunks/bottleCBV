@@ -36,6 +36,13 @@ For the very simple example, registering the all the routes in the class can be 
     
         def get(self, item_key):
             return "Get Example %s" % item_key
+            
+        def post(self):
+            return "Post Example"
+            
+        def put(self, item_key):
+            return "Put Example %s" % item_key
+            
 
     ExampleView.register(app)
     # Run the app
@@ -46,7 +53,11 @@ When you register the app it will basically register following endpoints to the 
 
 Method: GET ```/example/``` 
 
-Method: GET ```/example/<item_key>``` 
+Method: GET ```/example/<item_key>/``` 
+
+Method: POST ```/example/``` 
+
+Method: PUT ```/example/<item_key>/``` 
 
 Access them as below:
 
@@ -60,3 +71,15 @@ Access them as below:
     
     OUTPUT:
         ``Get Example 1``
+
+
+    ```curl -XPOST "http://localhost:8080/example/"```
+    
+    OUTPUT:
+        ``Post Example``
+        
+        
+    ```curl -XPUT "http://localhost:8080/example/1/"```
+    
+    OUTPUT:
+        ``Put Example 1``

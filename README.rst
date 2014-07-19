@@ -30,8 +30,9 @@ HTTP methods below are treated as special methods, there are not registered base
 as you can see in example above `get` request goes to ```def get```, and similarly `post` request goes to ```def post``` and so on.
 
 
+Example:
+********
 For the very simple example, registering the all the routes in the class can be used as follow,
-
 ::
 
     from bottle import Bottle, run
@@ -130,8 +131,8 @@ So, now the route/rule registered for the method above will be,
     Method: POST 
     Endpoint: `/my-custom-route/`
 
-    `Note: you can obiviously add multiple routes to one method by adding additional 
-    route decorators to it with the new route/rule`
+
+**Note**: ```you can obiviously add multiple routes to one method by adding additional route decorators to it with the new route/rule```
 
 
 Adding Route Base Prefix:

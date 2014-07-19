@@ -32,28 +32,31 @@ For the very simple example, registering the all the routes in the class can be 
     class ExampleView(BottleView):
 
         def index(self):
-            return "Index"
+            return "Index Examples"
     
         def get(self, item_key):
-            return "Get %s" % item_key
+            return "Get Example %s" % item_key
 
     ExampleView.register(app)
     # Run the app
     app.run(port=8080)
     
-
+    
 When you register the app it will basically register following endpoints to the app
 
 Method: GET ```/example/``` 
 
 Method: GET ```/example/<item_key>``` 
 
-and if you run the app, and
-    ``` curl -XGET "http://localhost:8080/example/" ```
-you should get following output:
-        Index
+Access them as below:
+
+    ```curl -XGET "http://localhost:8080/example/"```
     
-Similarly 
-    ``` curl -XGET "http://localhost:8080/example/1/" ```
-you should get following output:
-        Get 1
+    OUTPUT:
+        ``Index Examples``
+        
+    
+    ```curl -XGET "http://localhost:8080/example/1/"```
+    
+    OUTPUT:
+        ``Get Example 1``

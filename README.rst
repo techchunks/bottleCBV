@@ -55,6 +55,7 @@ For the very simple example, registering the all the routes in the class can be 
             return "Put Example %s" % item_key
 
         # automatically create routes for any method which is not special methods
+        # also its smart enough to generate route based on number of arguments method takes
         def some_method(self, arg1, arg2)
             return "Get Some Method with %s and %s" % (arg1, arg2)
 
@@ -104,7 +105,7 @@ Access them as below:
 
 
 Adding Custom Route:
-********************
+--------------------
 Custom Rule can add by using ```route``` decorator e.g,
 
 ::
@@ -134,6 +135,55 @@ So, now the route/rule registered for the method above will be,
 
 **Note**: ```you can obiviously add multiple routes to one method by adding additional route decorators to it with the new route/rule```
 
+
+Adding decorators:
+******************
+To add decorator to any method you can simply use traditional way as follow,
+
+::
+    class ExampleView(BottleView):
+        ...
+        ...
+        @mydecorator
+        def somemethod(self):
+            ...
+        
+        ...
+
+To add decorator to all the methods in the class, simple add an attribute to the class definition with a list of decorators, 
+and that will be applied to all the methods in the class
+
+::
+    class ExampleView(BottleView):
+        decorators = [mydecorator1, mydecorator2,  .... ]
+        
+        def get(self, item_key):
+            ...
+            
+        @route("/my-custom-route/", method=["GET", "POST"])
+        def somemethod(self):
+            ...
+        
+        ...
+        
+ is same as:
+ 
+::
+    class ExampleView(BottleView):
+    
+        @mydecorator1
+        @mydecorator2
+        def get(self, item_key):
+            ...
+            
+        @route("/my-custom-route/", method=["GET", "POST"])
+        @mydecorator1
+        @mydecorator2
+        def somemethod(self):
+            ...
+        
+        ...
+        ...
 
 Adding Route Base Prefix:
 *************************
@@ -184,7 +234,3 @@ So, now all the routes in ExampleView will be registered as follow
     Note: you can add both base_route and route_prefix, 
     that will generate combination of both e.g, ```/route_base/route_prefix/```
     
-
-Registering Custom Methods:
-***************************
-Custom methods can be added 

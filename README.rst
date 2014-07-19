@@ -25,8 +25,6 @@ For the very simple example, registering the all the routes in the class can be 
     from bottle import Bottle, run
     from bottleCBV import BottleView
 
-::
-
     app = Bottle()
     
     class ExampleView(BottleView):
@@ -64,28 +62,18 @@ When you register the app it will basically register following endpoints to the 
 Access them as below:
 
 ::
+
     ```curl -XGET "http://localhost:8080/example/"```
-    
-    OUTPUT:
-        ``Index Examples``
-        
+    OUTPUT: ```Index Examples```
     
     ```curl -XGET "http://localhost:8080/example/1/"```
+    OUTPUT: ```Get Example 1```
     
-    OUTPUT:
-        ``Get Example 1``
-
-
     ```curl -XPOST "http://localhost:8080/example/"```
-    
-    OUTPUT:
-        ``Post Example``
-        
+    OUTPUT: ```Post Example```
         
     ```curl -XPUT "http://localhost:8080/example/1/"```
-    
-    OUTPUT:
-        ``Put Example 1``
+    OUTPUT: ```Put Example 1```
 
 
 Special Methods:

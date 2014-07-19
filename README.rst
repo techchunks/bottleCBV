@@ -20,23 +20,22 @@ Let's see how to use it whilst building something with it.
 
 For the very simple example, registering the all the routes in the class can be used as follow,
 
-::
-    from bottle import Bottle, run
-    from bottleCBV import BottleView
+        from bottle import Bottle, run
+        from bottleCBV import BottleView
+        
+        app = Bottle()
+        
+        class ExampleView(BottleView):
     
-    app = Bottle()
+            def index(self):
+                return "Index"
+        
+            def get(self, item_key):
+                return "Get %s" % item_key
     
-    class ExampleView(BottleView):
-
-        def index(self):
-            return "Index"
-    
-        def get(self, item_key):
-            return "Get %s" % item_key
-
-    ExampleView.register(app)
-    # Run the app
-    app.run(port=8080)
+        ExampleView.register(app)
+        # Run the app
+        app.run(port=8080)
     
 
 When you register the app it will basically register following endpoints to the app
@@ -47,12 +46,14 @@ When you register the app it will basically register following endpoints to the 
 and if you run the app, you should be able to able to acces following url's in the browser
 
 `http://localhost:8080/example/`
-:: OUTPUT: 
+
+OUTPUT: 
     Index
 
 
 `http://localhost:8080/example/1/`
-:: OUTPUT:
+
+OUTPUT:
     Get 1
 
 

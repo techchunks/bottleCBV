@@ -51,16 +51,19 @@ For the very simple example, registering the all the routes in the class can be 
     
 When you register the app it will basically register following endpoints to the app
 
-Method: GET ```/example/``` 
-
-Method: GET ```/example/<item_key>/``` 
-
-Method: POST ```/example/``` 
-
-Method: PUT ```/example/<item_key>/``` 
+::
+    
+    Method: GET ```/example/``` 
+    
+    Method: GET ```/example/<item_key>/``` 
+    
+    Method: POST ```/example/``` 
+    
+    Method: PUT ```/example/<item_key>/``` 
 
 Access them as below:
 
+::
     ```curl -XGET "http://localhost:8080/example/"```
     
     OUTPUT:

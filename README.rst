@@ -20,9 +20,13 @@ Let's see how to use it whilst building something with it.
 
 For the very simple example, registering the all the routes in the class can be used as follow,
 
+::
+
     from bottle import Bottle, run
     from bottleCBV import BottleView
-    
+
+::
+
     app = Bottle()
     
     class ExampleView(BottleView):
@@ -40,21 +44,16 @@ For the very simple example, registering the all the routes in the class can be 
 
 When you register the app it will basically register following endpoints to the app
 
-`/example/` Method :: GET
-`/example/<item_key>/` Method :: GET
+Method: GET ```/example/``` 
 
-and if you run the app, you should be able to able to acces following url's in the browser
+Method: GET ```/example/<item_key>``` 
 
-    `http://localhost:8080/example/`
-    
-    OUTPUT: 
+and if you run the app, and
+    ``` curl -XGET "http://localhost:8080/example/" ```
+you should get following output:
         Index
     
-    `http://localhost:8080/example/1/`
-    
-    OUTPUT:
+Similarly 
+    ``` curl -XGET "http://localhost:8080/example/1/" ```
+you should get following output:
         Get 1
-
-
-
-    

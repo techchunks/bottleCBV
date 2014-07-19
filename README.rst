@@ -51,29 +51,33 @@ When you register the app it will basically register following endpoints to the 
 
 ::
     
-    Method: GET ```/example/``` 
+    Method: GET 
+    Endpoint: `/example/` 
     
-    Method: GET ```/example/<item_key>/``` 
+    Method: GET 
+    Endpoint: `/example/<item_key>/`
     
-    Method: POST ```/example/``` 
+    Method: POST 
+    Endpoint: `/example/`
     
-    Method: PUT ```/example/<item_key>/``` 
+    Method: PUT 
+    Endpoint: `/example/<item_key>/`
 
 Access them as below:
 
 ::
 
-    ```curl -XGET "http://localhost:8080/example/"```
-    OUTPUT: ```Index Examples```
+    curl -XGET "http://localhost:8080/example/"
+    OUTPUT: `Index Examples`
     
-    ```curl -XGET "http://localhost:8080/example/1/"```
-    OUTPUT: ```Get Example 1```
+    `curl -XGET "http://localhost:8080/example/1/"`
+    OUTPUT: `Get Example 1`
     
-    ```curl -XPOST "http://localhost:8080/example/"```
-    OUTPUT: ```Post Example```
+    `curl -XPOST "http://localhost:8080/example/"`
+    OUTPUT: `Post Example`
         
-    ```curl -XPUT "http://localhost:8080/example/1/"```
-    OUTPUT: ```Put Example 1```
+    `curl -XPUT "http://localhost:8080/example/1/"`
+    OUTPUT: `Put Example 1`
 
 
 Special Methods:
@@ -99,13 +103,17 @@ So if you want to add base prefix to your route, it is as simple as adding a var
 So, now all the routes in ExampleView will be registered as follow
 ::
     
-    Method: GET ```/my/example/``` 
+    Method: GET 
+    Endpoint: `/my/example/`
     
-    Method: GET ```/my/example/<item_key>/``` 
+    Method: GET 
+    Endpoint: `/my/example/<item_key>/`
     
-    Method: POST ```/my/example/``` 
+    Method: POST 
+    Endpoint: `/my/example/`
     
-    Method: PUT ```/my/example/<item_key>/``` 
+    Method: PUT 
+    Endpoint: `/my/example/<item_key>/`
     
 
 Registering Custom Methods:

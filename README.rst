@@ -18,6 +18,18 @@ How it works
 
 Let's see how to use it whilst building something with it. 
 
+
+Special Methods:
+****************
+
+HTTP methods below are treated as special methods, there are not registered based on the method name but HTTP method
+
+
+```["get", "put", "post", "delete", "index", "options"] ```
+
+as you can see in example above `get` request goes to ```def get```, and similarly `post` request goes to ```def post``` and so on.
+
+
 For the very simple example, registering the all the routes in the class can be used as follow,
 
 ::
@@ -40,7 +52,10 @@ For the very simple example, registering the all the routes in the class can be 
             
         def put(self, item_key):
             return "Put Example %s" % item_key
-            
+
+        # automatically create routes for any method which is not special methods
+        def some_method(self, arg1, arg2)
+            return "Get Some Method with %s and %s" % (arg1, arg2)
 
     ExampleView.register(app)
     # Run the app
@@ -62,6 +77,10 @@ When you register the app it will basically register following endpoints to the 
     
     Method: PUT 
     Endpoint: `/example/<item_key>/`
+    
+    Method:  
+    Endpoint: `/example/some-method/<arg1>/<arg2>/`
+    
 
 Access them as below:
 
@@ -79,16 +98,39 @@ Access them as below:
     `curl -XPUT "http://localhost:8080/example/1/"`
     OUTPUT: `Put Example 1`
 
-
-Special Methods:
-****************
-
-HTTP methods below are treated as special methods, there are not registered based on the method name but HTTP method
+    `curl -XGET "http://localhost:8080/example/some-method/1/2/"`
+    OUTPUT: `Get Some Method with 1 and 2`
 
 
-```["get", "put", "post", "delete", "index", "options"] ```
+Adding Custom Route:
+********************
+Custom Rule can add by using ```route``` decorator e.g,
 
-as you can see in example above `get` request goes to ```def get```, and similarly `post` request goes to ```def post``` and so on.
+::
+    
+    from bottleCBV import BottleView, route
+    
+    class ExampleView(BottleView):
+        ...
+        ...
+        @route("/my-custom-route/", method=["GET", "POST"])
+        def somemethod(self):
+            return "My Custom Route"
+        
+        ...
+        ...
+
+So, now the route/rule registered for the method above will be,
+
+::
+    Method: GET 
+    Endpoint: `/my-custom-route/` 
+    
+    Method: POST 
+    Endpoint: `/my-custom-route/`
+
+    `Note: you can obiviously add multiple routes to one method by adding additional 
+    route decorators to it with the new route/rule`
 
 
 Adding Route Base Prefix:
@@ -115,7 +157,32 @@ So, now all the routes in ExampleView will be registered as follow
     Method: PUT 
     Endpoint: `/my/example/<item_key>/`
     
+    
+Adding Route Prefix:
+********************
+So if you want to add base prefix to your route, it is as simple as adding a variable in you View as below,
+::
+    class ExampleView(BottleView):
+        route_prefix = "/custom-route"
+        ...
+        ...
+
+So, now all the routes in ExampleView will be registered as follow
+::
+    
+    Method: GET 
+    Endpoint: `/custom-route/`
+    
+    Method: GET 
+    Endpoint: `/custom-route/<item_key>/`
+    ...
+    ...
+
+    
+    Note: you can add both base_route and route_prefix, 
+    that will generate combination of both e.g, ```/route_base/route_prefix/```
+    
 
 Registering Custom Methods:
 ***************************
-Registering custom method is very simple, just need to add the method to class 
+Custom methods can be added 

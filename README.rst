@@ -27,8 +27,6 @@ HTTP methods below are treated as special methods, there are not registered base
 
 ```["get", "put", "post", "delete", "index", "options"] ```
 
-as you can see in example above `get` request goes to ```def get```, and similarly `post` request goes to ```def post``` and so on.
-
 
 Example:
 ********

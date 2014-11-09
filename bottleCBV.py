@@ -163,4 +163,4 @@ def join_paths(*path_pieces):
     # Remove blank strings, and make sure everything is a string
     cleaned_parts = map(str, filter(None, path_pieces))
 
-    return "/".join(cleaned_parts + [""])
+    return "/".join(cleaned_parts)

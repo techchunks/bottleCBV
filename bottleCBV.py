@@ -4,6 +4,7 @@ import inspect
 
 
 _py2 = sys.version_info[0] == 2
+_py3 = sys.version_info[0] == 3
 
 
 def route(rule, **options):
@@ -162,5 +163,7 @@ def join_paths(*path_pieces):
     """Join parts of a url path"""
     # Remove blank strings, and make sure everything is a string
     cleaned_parts = map(str, filter(None, path_pieces))
+    if _py3:
+        cleaned_parts = list(cleaned_parts)
 
     return "/".join(cleaned_parts)

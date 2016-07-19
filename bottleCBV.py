@@ -4,6 +4,7 @@ import inspect
 
 
 _py2 = sys.version_info[0] == 2
+_py3 = sys.version_info[0] == 3
 
 
 def route(rule, **options):
@@ -92,7 +93,11 @@ class BottleView(object):
                 cls._app.route(callback=callable_method, method=method,
                                path=rule, name=endpoint)
             else:
-                for cached_rule in custom_rule.values()[0]:
+                custom_rule_list = custom_rule.values()
+                if _py3:
+                    custom_rule_list = list(custom_rule_list)
+
+                for cached_rule in custom_rule_list[0]:
                     rule, options = cached_rule
                     try:
                         method = options.pop("method")
@@ -162,5 +167,7 @@ def join_paths(*path_pieces):
     """Join parts of a url path"""
     # Remove blank strings, and make sure everything is a string
     cleaned_parts = map(str, filter(None, path_pieces))
+    if _py3:
+        cleaned_parts = list(cleaned_parts)
 
     return "/".join(cleaned_parts)

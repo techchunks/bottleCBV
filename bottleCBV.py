@@ -7,25 +7,97 @@ _py2 = sys.version_info[0] == 2
 _py3 = sys.version_info[0] == 3
 
 
-def route(rule, **options):
-    """A decorator that is used to define custom routes for methods in
-    BottleView subclasses. The format is exactly the same as Bottle's
-    `@app.route` decorator.
+class route(object):
+    def __init__(self, rule, **options):
+        """
+    Class Initializer - This will only execute if using BottleCBV's original route() style.
     """
 
-    def decorator(f):
-        # Put the rule cache on the method itself instead of globally
+        # Not sure if this is needed, need to test what happens when you specify a rule but not options in BottleCBV.
+        if not options:
+            options = dict(method='ANY')
+        self.rule = rule
+        self.options = options
+
+    def __call__(self, func):
+        f = func
+        rule = self.rule
+        options = self.options
+
+        def decorator(*args, **kwargs):
+            if not hasattr(f, '_rule_cache') or f._rule_cache is None:
+                f._rule_cache = {f.__name__: [(rule, options)]}
+            elif not f.__name__ in f._rule_cache:
+                f._rule_cache[f.__name__] = [(rule, options)]
+            else:
+                f._rule_cache[f.__name__].append((rule, options))
+            return f
+
+        return decorator()
+
+    @staticmethod
+    def decorate(f, rule, **options):
         if not hasattr(f, '_rule_cache') or f._rule_cache is None:
             f._rule_cache = {f.__name__: [(rule, options)]}
         elif not f.__name__ in f._rule_cache:
             f._rule_cache[f.__name__] = [(rule, options)]
         else:
             f._rule_cache[f.__name__].append((rule, options))
-
         return f
 
-    return decorator
+    @staticmethod
+    def get(rule):
+        options = dict(method='GET')
 
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def post(rule):
+        options = dict(method='POST')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def put(rule):
+        options = dict(method='PUT')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def delete(rule):
+        options = dict(method='DELETE')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def head(rule):
+        options = dict(method='HEAD')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def any(rule):
+        options = dict(method='ANY')
+        
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
 
 class BottleView(object):
     """ Class based view implementation for bottle (following flask-classy architech)

@@ -89,6 +89,15 @@ class route(object):
             return route.decorate(f, rule, **options)
 
         return decorator
+        
+    @staticmethod
+    def patch(rule):
+        options = dict(method='PATCH')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
 
     @staticmethod
     def any(rule):

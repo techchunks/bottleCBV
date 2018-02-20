@@ -10,8 +10,8 @@ _py3 = sys.version_info[0] == 3
 class route(object):
     def __init__(self, rule, **options):
         """
-    Class Initializer - This will only execute if using BottleCBV's original route() style.
-    """
+        Class Initializer - This will only execute if using BottleCBV's original route() style.
+        """
 
         # Not sure if this is needed, need to test what happens when you specify a rule but not options in BottleCBV.
         if not options:

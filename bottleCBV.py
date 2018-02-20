@@ -2,11 +2,11 @@ import re
 import sys
 import inspect
 
-
 _py2 = sys.version_info[0] == 2
 _py3 = sys.version_info[0] == 3
 
 
+# noinspection PyPep8Naming
 class route(object):
     def __init__(self, rule, **options):
         """
@@ -24,10 +24,10 @@ class route(object):
         rule = self.rule
         options = self.options
 
-        def decorator(*args, **kwargs):
+        def decorator(*_, **__):
             if not hasattr(f, '_rule_cache') or f._rule_cache is None:
                 f._rule_cache = {f.__name__: [(rule, options)]}
-            elif not f.__name__ in f._rule_cache:
+            elif f.__name__ not in f._rule_cache:
                 f._rule_cache[f.__name__] = [(rule, options)]
             else:
                 f._rule_cache[f.__name__].append((rule, options))
@@ -39,7 +39,7 @@ class route(object):
     def decorate(f, rule, **options):
         if not hasattr(f, '_rule_cache') or f._rule_cache is None:
             f._rule_cache = {f.__name__: [(rule, options)]}
-        elif not f.__name__ in f._rule_cache:
+        elif f.__name__ not in f._rule_cache:
             f._rule_cache[f.__name__] = [(rule, options)]
         else:
             f._rule_cache[f.__name__].append((rule, options))
@@ -97,7 +97,7 @@ class route(object):
         CRUD Use Case: Update / Modify
         Example:
           Rename then user's name from Jon to John
-        """  
+        """
         options = dict(method='PATCH')
 
         def decorator(f):
@@ -126,12 +126,13 @@ class route(object):
         HEAD Method
         CRUD Use Case: Read (in-part)
         Note: This is the same as GET, but without the response body.
-        
+
         This is useful for items such as checking if a user exists, such as this example:
           Request: GET /user/12403
           Response: (status code) 404 - Not Found
         
-        If you are closely following the REST standard, you can also verify if the requested PATCH (update) was successfully applied, in this example:
+        If you are closely following the REST standard, you can also verify if the requested PATCH (update) was
+        successfully applied, in this example:
           Request: PUT /user/12404 { "name": "John"}
           Response: (status code) 304 - Not Modified
         """
@@ -145,16 +146,19 @@ class route(object):
     @staticmethod
     def any(rule):
         """
-        From the Bottle Documentation: 
+        From the Bottle Documentation:
           
-        The non-standard ANY method works as a low priority fallback: Routes that listen to ANY will match requests regardless of their HTTP method but only if no other more specific route is defined. This is helpful for proxy-routes that redirect requests to more specific sub-applications.
+        The non-standard ANY method works as a low priority fallback: Routes that listen to ANY will match requests
+        regardless of their HTTP method but only if no other more specific route is defined. This is helpful for
+        proxy-routes that redirect requests to more specific sub-applications.
         """
         options = dict(method='ANY')
-        
+
         def decorator(f):
             return route.decorate(f, rule, **options)
 
         return decorator
+
 
 class BottleView(object):
     """ Class based view implementation for bottle (following flask-classy architech)
@@ -207,6 +211,7 @@ class BottleView(object):
                 callable_method = decorator(callable_method)
 
             try:
+                # noinspection PyProtectedMember
                 custom_rule = func._rule_cache
             except AttributeError:
                 method_args = inspect.getargspec(func)[0]
@@ -250,6 +255,8 @@ class BottleView(object):
         klass_name = (klass_name[:-len(cls.view_identifier)]
                       if klass_name.endswith(cls.view_identifier)
                       else klass_name)
+
+        rule = klass_name
 
         if not (cls.base_route or cls.route_prefix):
             rule = klass_name

@@ -126,7 +126,7 @@ class route(object):
         HEAD Method
         CRUD Use Case: Read (in-part)
         Note: This is the same as GET, but without the response body.
-        
+
         This is useful for items such as checking if a user exists, such as this example:
           Request: GET /user/12403
           Response: (status code) 404 - Not Found
@@ -146,7 +146,7 @@ class route(object):
     @staticmethod
     def any(rule):
         """
-        From the Bottle Documentation: 
+        From the Bottle Documentation:
           
         The non-standard ANY method works as a low priority fallback: Routes that listen to ANY will match requests
         regardless of their HTTP method but only if no other more specific route is defined. This is helpful for

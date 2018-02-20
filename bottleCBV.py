@@ -7,25 +7,154 @@ _py2 = sys.version_info[0] == 2
 _py3 = sys.version_info[0] == 3
 
 
-def route(rule, **options):
-    """A decorator that is used to define custom routes for methods in
-    BottleView subclasses. The format is exactly the same as Bottle's
-    `@app.route` decorator.
+class route(object):
+    def __init__(self, rule, **options):
+        """
+    Class Initializer - This will only execute if using BottleCBV's original route() style.
     """
 
-    def decorator(f):
-        # Put the rule cache on the method itself instead of globally
+        # Not sure if this is needed, need to test what happens when you specify a rule but not options in BottleCBV.
+        if not options:
+            options = dict(method='ANY')
+        self.rule = rule
+        self.options = options
+
+    def __call__(self, func):
+        f = func
+        rule = self.rule
+        options = self.options
+
+        def decorator(*args, **kwargs):
+            if not hasattr(f, '_rule_cache') or f._rule_cache is None:
+                f._rule_cache = {f.__name__: [(rule, options)]}
+            elif not f.__name__ in f._rule_cache:
+                f._rule_cache[f.__name__] = [(rule, options)]
+            else:
+                f._rule_cache[f.__name__].append((rule, options))
+            return f
+
+        return decorator()
+
+    @staticmethod
+    def decorate(f, rule, **options):
         if not hasattr(f, '_rule_cache') or f._rule_cache is None:
             f._rule_cache = {f.__name__: [(rule, options)]}
         elif not f.__name__ in f._rule_cache:
             f._rule_cache[f.__name__] = [(rule, options)]
         else:
             f._rule_cache[f.__name__].append((rule, options))
-
         return f
 
-    return decorator
+    @staticmethod
+    def get(rule):
+        """
+        GET Method
+        CRUD Use Case: Read
+        Example:
+          Request a user profile
+        """
+        options = dict(method='GET')
 
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def post(rule):
+        """
+        POST Method
+        CRUD Use Case: Create
+        Example:
+          Create a new user
+        """
+        options = dict(method='POST')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def put(rule):
+        """
+        PUT Method
+        CRUD Use Case: Update / Replace
+        Example:
+          Set item# 4022 to Red Seedless Grapes, instead of tomatoes
+        """
+        options = dict(method='PUT')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def patch(rule):
+        """
+        PATCH Method
+        CRUD Use Case: Update / Modify
+        Example:
+          Rename then user's name from Jon to John
+        """  
+        options = dict(method='PATCH')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def delete(rule):
+        """
+        DELETE Method
+        CRUD Use Case: Delete
+        Example:
+          Delete user# 12403 (John)
+        """
+        options = dict(method='DELETE')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def head(rule):
+        """
+        HEAD Method
+        CRUD Use Case: Read (in-part)
+        Note: This is the same as GET, but without the response body.
+        
+        This is useful for items such as checking if a user exists, such as this example:
+          Request: GET /user/12403
+          Response: (status code) 404 - Not Found
+        
+        If you are closely following the REST standard, you can also verify if the requested PATCH (update) was successfully applied, in this example:
+          Request: PUT /user/12404 { "name": "John"}
+          Response: (status code) 304 - Not Modified
+        """
+        options = dict(method='HEAD')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
+    def any(rule):
+        """
+        From the Bottle Documentation: 
+          
+        The non-standard ANY method works as a low priority fallback: Routes that listen to ANY will match requests regardless of their HTTP method but only if no other more specific route is defined. This is helpful for proxy-routes that redirect requests to more specific sub-applications.
+        """
+        options = dict(method='ANY')
+        
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
 
 class BottleView(object):
     """ Class based view implementation for bottle (following flask-classy architech)

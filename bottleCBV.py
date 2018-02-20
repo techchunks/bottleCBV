@@ -47,6 +47,12 @@ class route(object):
 
     @staticmethod
     def get(rule):
+        """
+        GET Method
+        CRUD Use Case: Read
+        Example:
+          Request a user profile
+        """
         options = dict(method='GET')
 
         def decorator(f):
@@ -56,6 +62,12 @@ class route(object):
 
     @staticmethod
     def post(rule):
+        """
+        POST Method
+        CRUD Use Case: Create
+        Example:
+          Create a new user
+        """
         options = dict(method='POST')
 
         def decorator(f):
@@ -65,6 +77,12 @@ class route(object):
 
     @staticmethod
     def put(rule):
+        """
+        PUT Method
+        CRUD Use Case: Update / Replace
+        Example:
+          Set item# 4022 to Red Seedless Grapes, instead of tomatoes
+        """
         options = dict(method='PUT')
 
         def decorator(f):
@@ -73,7 +91,28 @@ class route(object):
         return decorator
 
     @staticmethod
+    def patch(rule):
+        """
+        PATCH Method
+        CRUD Use Case: Update / Modify
+        Example:
+          Rename then user's name from Jon to John
+        """  
+        options = dict(method='PATCH')
+
+        def decorator(f):
+            return route.decorate(f, rule, **options)
+
+        return decorator
+
+    @staticmethod
     def delete(rule):
+        """
+        DELETE Method
+        CRUD Use Case: Delete
+        Example:
+          Delete user# 12403 (John)
+        """
         options = dict(method='DELETE')
 
         def decorator(f):
@@ -83,16 +122,20 @@ class route(object):
 
     @staticmethod
     def head(rule):
-        options = dict(method='HEAD')
-
-        def decorator(f):
-            return route.decorate(f, rule, **options)
-
-        return decorator
+        """
+        HEAD Method
+        CRUD Use Case: Read (in-part)
+        Note: This is the same as GET, but without the response body.
         
-    @staticmethod
-    def patch(rule):
-        options = dict(method='PATCH')
+        This is useful for items such as checking if a user exists, such as this example:
+          Request: GET /user/12403
+          Response: (status code) 404 - Not Found
+        
+        If you are closely following the REST standard, you can also verify if the requested PATCH (update) was successfully applied, in this example:
+          Request: PUT /user/12404 { "name": "John"}
+          Response: (status code) 304 - Not Modified
+        """
+        options = dict(method='HEAD')
 
         def decorator(f):
             return route.decorate(f, rule, **options)
@@ -101,6 +144,11 @@ class route(object):
 
     @staticmethod
     def any(rule):
+        """
+        From the Bottle Documentation: 
+          
+        The non-standard ANY method works as a low priority fallback: Routes that listen to ANY will match requests regardless of their HTTP method but only if no other more specific route is defined. This is helpful for proxy-routes that redirect requests to more specific sub-applications.
+        """
         options = dict(method='ANY')
         
         def decorator(f):

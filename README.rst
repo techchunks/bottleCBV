@@ -4,7 +4,7 @@ BottleCBV (Bottle Class Based View)
 .. module:: bottleCBV
 
 `bottleCBV` is an class based view extension for bottle framework, that will automatically generate 
-routes based on methods in the views defined (Inspired by ```Flask-Classy```).
+routes based on methods in the views defined (Inspired by `Flask-Classy`).
 
 Installation
 ------------
@@ -25,7 +25,7 @@ Special Methods:
 HTTP methods below are treated as special methods, there are not registered based on the method name but HTTP method
 
 
-``["get", "put", "post", "delete", "index", "options"] ``
+`["get", "put", "post", "delete", "index", "options"] `
 
 
 Example:
@@ -67,19 +67,19 @@ When you register the app it will basically register following endpoints to the 
 ::
   
   Method: GET 
-  Endpoint: `/example/` 
+  Endpoint: /example/ 
   
   Method: GET 
-  Endpoint: `/example/<item_key>/`
+  Endpoint: /example/<item_key>/
   
   Method: POST 
-  Endpoint: `/example/`
+  Endpoint: /example/
   
   Method: PUT 
-  Endpoint: `/example/<item_key>/`
+  Endpoint: /example/<item_key>/
   
   Method:  
-  Endpoint: `/example/some-method/<arg1>/<arg2>/`
+  Endpoint: /example/some-method/<arg1>/<arg2>/
   
 
 Access them as below:
@@ -125,13 +125,13 @@ So, now the route/rule registered for the method above will be,
 ::
 
   Method: GET 
-  Endpoint: `/my-custom-route/` 
+  Endpoint: /my-custom-route/
   
   Method: POST 
-  Endpoint: `/my-custom-route/`
+  Endpoint: /my-custom-route/
 
 
-**Note**: ```you can obiviously add multiple routes to one method by adding additional route decorators to it with the new route/rule```
+**Note**: `you can obiviously add multiple routes to one method by adding additional route decorators to it with the new route/rule`
 
 
 Adding decorators:
@@ -199,16 +199,16 @@ So, now all the routes in ExampleView will be registered as follow
 ::
     
     Method: GET 
-    Endpoint: `/my/example/`
+    Endpoint: /my/example/
     
     Method: GET 
-    Endpoint: `/my/example/<item_key>/`
+    Endpoint: /my/example/<item_key>/
     
     Method: POST 
-    Endpoint: `/my/example/`
+    Endpoint: /my/example/
     
     Method: PUT 
-    Endpoint: `/my/example/<item_key>/`
+    Endpoint: /my/example/<item_key>/
     
     
 Adding Route Prefix:
@@ -227,14 +227,14 @@ So, now all the routes in ExampleView will be registered as follow
 ::
     
     Method: GET 
-    Endpoint: `/custom-route/`
+    Endpoint: /custom-route/
     
     Method: GET 
-    Endpoint: `/custom-route/<item_key>/`
+    Endpoint: /custom-route/<item_key>/
     ...
     ...
 
     
     Note: you can add both base_route and route_prefix, 
-    that will generate combination of both e.g, ``/route_base/route_prefix/``
+    that will generate combination of both e.g, /route_base/route_prefix/
     

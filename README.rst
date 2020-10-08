@@ -25,7 +25,7 @@ Special Methods:
 HTTP methods below are treated as special methods, there are not registered based on the method name but HTTP method
 
 
-```["get", "put", "post", "delete", "index", "options"] ```
+``["get", "put", "post", "delete", "index", "options"] ``
 
 
 Example:
@@ -236,5 +236,5 @@ So, now all the routes in ExampleView will be registered as follow
 
     
     Note: you can add both base_route and route_prefix, 
-    that will generate combination of both e.g, ```/route_base/route_prefix/```
+    that will generate combination of both e.g, ``/route_base/route_prefix/``
     

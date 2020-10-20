@@ -227,7 +227,7 @@ class BottleView(object):
                 cls._app.route(callback=callable_method, method=method,
                                path=rule, name=endpoint)
             else:
-                custom_rule_list = custom_rule.values()
+                custom_rule_list = list(custom_rule.values())
                 if _py3:
                     custom_rule_list = list(custom_rule_list)
 
@@ -246,7 +246,7 @@ class BottleView(object):
                     cls._app.route(callback=callable_method, path=rule,
                                    method=method, name=endpoint, **options)
 
-            print ("%s : %s, Endpoint: %s" % (method, rule, endpoint))
+            print(("%s : %s, Endpoint: %s" % (method, rule, endpoint)))
 
     @classmethod
     def _build_route_rule(cls, func_name, *method_args):
@@ -302,7 +302,7 @@ class BottleView(object):
 def join_paths(*path_pieces):
     """Join parts of a url path"""
     # Remove blank strings, and make sure everything is a string
-    cleaned_parts = map(str, filter(None, path_pieces))
+    cleaned_parts = list(map(str, [_f for _f in path_pieces if _f]))
     if _py3:
         cleaned_parts = list(cleaned_parts)
 

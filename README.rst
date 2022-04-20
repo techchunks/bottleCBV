@@ -25,7 +25,7 @@ Special Methods:
 HTTP methods below are treated as special methods, there are not registered based on the method name but HTTP method
 
 
-`["get", "put", "post", "delete", "index", "options"] `
+["get", "put", "post", "delete", "index", "options"]
 
 
 Example:

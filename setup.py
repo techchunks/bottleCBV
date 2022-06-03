@@ -20,7 +20,7 @@ setup(
     include_package_data=True,
     platforms='any',
     install_requires=[
-        'bottle==0.12.7'
+        'bottle==0.12.20'
     ],
     keywords=['bottle', 'bottlepy', 'class-based-view'],
     classifiers=[

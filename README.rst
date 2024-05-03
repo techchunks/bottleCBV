@@ -167,7 +167,7 @@ and that will be applied to all the methods in the class
       ...
         
         
-is same as:
+is the same as:
  
 ::
 
@@ -191,6 +191,7 @@ Adding Route Base Prefix:
 So if you want to add a base prefix to your route, it is as simple as adding a variable in your View as below,
 
 ::
+
     class ExampleView(BottleView):
         base_route = "/my"
         ...
@@ -214,7 +215,7 @@ So, now all the routes in ExampleView will be registered as follows
     
 Adding Route Prefix:
 ********************
-So if you want to add base prefix to your route, it is as simple as adding a variable in you View as below,
+So if you want to add a base prefix to your route, it is as simple as adding a variable in your View as below,
 
 ::
 
@@ -223,7 +224,7 @@ So if you want to add base prefix to your route, it is as simple as adding a var
         ...
         ...
 
-So, now all the routes in ExampleView will be registered as follow
+So, now all the routes in ExampleView will be registered as follows
 
 ::
     
@@ -237,5 +238,5 @@ So, now all the routes in ExampleView will be registered as follow
 
     
     Note: you can add both base_route and route_prefix, 
-    that will generate combination of both e.g, /route_base/route_prefix/
+    that will generate a combination of both e.g, /route_base/route_prefix/
     

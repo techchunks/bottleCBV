@@ -188,14 +188,15 @@ is same as:
 
 Adding Route Base Prefix:
 *************************
-So if you want to add base prefix to your route, it is as simple as adding a variable in you View as below,
+So if you want to add a base prefix to your route, it is as simple as adding a variable in your View as below,
 ::
     class ExampleView(BottleView):
         base_route = "/my"
         ...
         ...
 
-So, now all the routes in ExampleView will be registered as follow
+
+So, now all the routes in ExampleView will be registered as follows
 ::
     
     Method: GET 
